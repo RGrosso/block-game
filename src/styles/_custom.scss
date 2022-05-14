@@ -1,11 +1,23 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--surface-a);
+    margin: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: var(--surface-ground);
+    font-family: var(--font-family);
+    font-weight: 400;
     color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html,
 body {
     padding: 0;
     margin: 0;
+}
+
+.game-square {
+    aspect-ratio: 1 / 1;
+    max-height: 80vh;
 }

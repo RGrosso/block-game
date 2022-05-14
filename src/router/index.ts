@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
+import VisualMemoryView from "@/views/VisualMemoryView.vue";
 
 const routes = [
     {
@@ -8,6 +9,14 @@ const routes = [
         component: HomeView,
         meta: {
             title: "Home",
+        },
+    },
+    {
+        path: "/visual-memory",
+        name: "visualMemory",
+        component: VisualMemoryView,
+        meta: {
+            title: "Visual Memory",
         },
     },
 ];

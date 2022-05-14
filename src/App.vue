@@ -1,5 +1,6 @@
 <template>
     <div>
+        <TheNav />
         <main>
             <router-view />
         </main>
@@ -7,8 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
 import { useTitle } from "@vueuse/core";
+import router from "@/router";
+import TheNav from "./components/TheNav.vue";
 
 const title = useTitle();
 
