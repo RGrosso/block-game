@@ -19,5 +19,43 @@ body {
 
 .game-square {
     aspect-ratio: 1 / 1;
-    max-height: 80vh;
+    max-height: 60vh;
+}
+
+$tile-gap: 0.75rem;
+
+.tile-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    .tile-row {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 1rem;
+    }
+
+    .tile {
+        width: 4rem;
+        height: 4rem;
+        background-color: var(--bluegray-400);
+        border: transparent;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all ease-in-out 100ms;
+    }
+
+    .tile:hover {
+        background-color: var(--bluegray-200);
+    }
+
+    .tile:focus {
+        outline: var(--primary-300) solid 1px;
+    }
+
+    .tile.show {
+        background-color: var(--primary-500);
+    }
 }

@@ -27,13 +27,46 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
         },
         mapPositions() {
             // creates array with x hidden tiles and the remaining tiles being empty
-            this.positions = shuffleArray([
-                ...createLenghtArrayOf(this.currentLevel.memorizeCount, TileState.HiddenMemorize),
-                ...createLenghtArrayOf(this.currentLevel.tileCount - this.currentLevel.memorizeCount, TileState.Empty),
-            ]);
+            const memorizeTiles = createLenghtArrayOf(this.currentLevel.memorizeCount, TileState.HiddenMemorize);
+            const emptyTiles = createLenghtArrayOf(
+                this.currentLevel.tileCount - this.currentLevel.memorizeCount,
+                TileState.Empty
+            );
+            const tileArray = shuffleArray([...memorizeTiles, ...emptyTiles]);
+
+            // map positions to a multi-dimensional array
+            const positions: State["positions"] = [];
+            const gridTileWidth = Math.sqrt(tileArray.length);
+            for (let i = 0; i < gridTileWidth; i++) {
+                const offset = i * gridTileWidth;
+                positions.push([tileArray[offset], tileArray[offset + 1], tileArray[offset + 2]]);
+            }
+
+            this.positions = positions;
+            console.log(this.positions);
+        },
+        selectTile(rowIndex: number, columnIndex: number) {
+            switch (this.positions[rowIndex][columnIndex]) {
+                case TileState.HiddenMemorize:
+                    // user selected a correct position.
+                    this.positions[rowIndex][columnIndex] = TileState.VisibleMemorize;
+                    break;
+
+                case TileState.Empty:
+                    // user selected a tile without a memorize tile
+                    this.lives.used++;
+                    this.positions[rowIndex][columnIndex] = TileState.Incorrect;
+                    break;
+
+                default:
+                    // for all others, do nothing
+                    break;
+            }
         },
     },
     getters: {
         currentLevel: (state) => state.levelsConfig[state.level],
+        levelLost: (state) => state.lives.total === state.lives.used,
+        gridRowCount: (state) => (state.positions.length !== 0 ? Math.sqrt(state.positions.length) : 0),
     },
 });

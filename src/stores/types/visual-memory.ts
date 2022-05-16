@@ -2,7 +2,7 @@ export interface State {
     level: number;
     levelsConfig: GameLevel[];
     lives: GameLives;
-    positions: TileState[];
+    positions: TileState[][];
 }
 
 export interface GameLevel {
