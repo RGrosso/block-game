@@ -6,40 +6,20 @@
                 :key="`tile-${index}`"
                 class="tile"
                 :class="{
-                    show: gameState === GameState.Starting && tile === TileState.HiddenMemorize,
+                    correct: visualMemory.isTileVisible(rowIndex, index),
+                    incorrect: visualMemory.isTileIncorrect(rowIndex, index),
                 }"
-                :disabled="gameState === GameState.Starting"
+                :disabled="visualMemory.gameState === GameState.Starting"
                 type="button"
-                @click="onTileClick"
+                @click="visualMemory.selectTile(rowIndex, index)"
             />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { GameState } from "@/stores/types/visual-memory";
 import { useVisualMemoryStore } from "@/stores/visual-memory";
-import { ref } from "vue";
-import { TileState } from "@/stores/types/visual-memory";
-
-enum GameState {
-    Starting,
-    Active,
-}
 
 const visualMemory = useVisualMemoryStore();
-const gameState = ref(GameState.Starting);
-
-const startGame = () => {
-    setTimeout(() => {
-        gameState.value = GameState.Active;
-    }, 1000);
-};
-
-const onTileClick = () => {
-    if (gameState.value === GameState.Starting) {
-        return;
-    }
-};
-
-startGame();
 </script>

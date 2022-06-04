@@ -1,8 +1,10 @@
 export interface State {
     level: number;
     levelsConfig: GameLevel[];
-    lives: GameLives;
+    roundlives: GameLives;
+    gameLives: GameLives;
     positions: TileState[][];
+    gameState: GameState;
 }
 
 export interface GameLevel {
@@ -21,4 +23,13 @@ export enum TileState {
     HiddenMemorize,
     VisibleMemorize,
     Incorrect,
+}
+
+export enum GameState {
+    Starting,
+    Active,
+    RoundComplete,
+    GameOver,
+    GameComplete,
+    Restarting,
 }

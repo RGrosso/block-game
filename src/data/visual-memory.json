@@ -1,0 +1,28 @@
+{
+    "levels": [
+        {
+            "tileCount": 9,
+            "memorizeCount": 2
+        },
+        {
+            "tileCount": 9,
+            "memorizeCount": 3
+        },
+        {
+            "tileCount": 9,
+            "memorizeCount": 4
+        },
+        {
+            "tileCount": 16,
+            "memorizeCount": 3
+        },
+        {
+            "tileCount": 16,
+            "memorizeCount": 3
+        },
+        {
+            "tileCount": 16,
+            "memorizeCount": 4
+        }
+    ]
+}
