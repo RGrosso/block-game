@@ -1,7 +1,7 @@
 export interface State {
     level: number;
     levelsConfig: GameLevel[];
-    roundlives: GameLives;
+    roundLives: GameLives;
     gameLives: GameLives;
     positions: TileState[][];
     gameState: GameState;

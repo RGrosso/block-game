@@ -1,12 +1,18 @@
-import { createLenghtArrayOf, shuffleArray } from "@/utils/grid";
+import { createLengthArrayOf, shuffleArray } from "@/utils/grid";
 import { defineStore } from "pinia";
 import { State, GameLevel, TileState, GameState } from "./types/visual-memory";
+import error from "@/assets/audio/error.wav";
+import success from "@/assets/audio/success.wav";
+import useSound from "@/composables/useSound";
+
+const errorSound = useSound(error);
+const successSound = useSound(success);
 
 export const useVisualMemoryStore = defineStore("visual-memory", {
     state: (): State => ({
         level: 0,
         levelsConfig: [],
-        roundlives: {
+        roundLives: {
             total: 3,
             used: 0,
         },
@@ -40,8 +46,8 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
         },
         mapPositions() {
             // creates array with x hidden tiles and the remaining tiles being empty
-            const memorizeTiles = createLenghtArrayOf(this.currentLevel.memorizeCount, TileState.HiddenMemorize);
-            const emptyTiles = createLenghtArrayOf(
+            const memorizeTiles = createLengthArrayOf(this.currentLevel.memorizeCount, TileState.HiddenMemorize);
+            const emptyTiles = createLengthArrayOf(
                 this.currentLevel.tileCount - this.currentLevel.memorizeCount,
                 TileState.Empty
             );
@@ -66,7 +72,7 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
                 case TileState.HiddenMemorize:
                     // show
                     this.positions[rowIndex][index] = TileState.VisibleMemorize;
-                    this.checkRemaingTiles();
+                    this.checkRemainingTiles();
                     return;
 
                 case TileState.Empty:
@@ -80,9 +86,9 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
             }
         },
         removeRoundLife() {
-            this.roundlives.used += 1;
+            this.roundLives.used += 1;
 
-            if (this.roundlives.total !== this.roundlives.used) {
+            if (this.roundLives.total !== this.roundLives.used) {
                 // exit as user still has more round lives
                 return;
             }
@@ -92,14 +98,16 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
 
             if (this.gameLives.total !== this.gameLives.used) {
                 // restart the current level
+                errorSound.play();
                 this.gameState = GameState.Restarting;
                 this.startRound(true);
                 return;
             }
 
+            errorSound.play();
             this.gameState = GameState.GameOver;
         },
-        checkRemaingTiles() {
+        checkRemainingTiles() {
             if (this.positions.flat().findIndex((position) => position === TileState.HiddenMemorize) !== -1) {
                 // still has hidden memorize tile left
                 return;
@@ -114,15 +122,19 @@ export const useVisualMemoryStore = defineStore("visual-memory", {
                 return;
             }
 
+            if (!restartCurrentRound) {
+                successSound.play(750);
+            }
+
             setTimeout(() => {
                 if (!restartCurrentRound) {
                     this.level++;
                 }
                 const levelConfig = this.levelsConfig[this.level];
 
-                this.roundlives.used = 0;
+                this.roundLives.used = 0;
                 if (levelConfig.lives) {
-                    this.roundlives.total = levelConfig.lives;
+                    this.roundLives.total = levelConfig.lives;
                 }
 
                 this.mapPositions();

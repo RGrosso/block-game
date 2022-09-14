@@ -18,6 +18,6 @@ export const shuffleArray = <T>(array: T[]) => {
     return array;
 };
 
-export const createLenghtArrayOf = <T>(arrayLength: number, arrayValue: T) => {
+export const createLengthArrayOf = <T>(arrayLength: number, arrayValue: T) => {
     return [...Array(arrayLength)].map(() => arrayValue);
 };

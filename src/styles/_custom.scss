@@ -58,6 +58,10 @@ $tile-gap: 0.75rem;
         outline: var(--blue-300) solid 1px;
     }
 
+    .tile:active:not(.incorrect) {
+        transform: scale(0.95);
+    }
+
     .tile.correct,
     .tile.correct:hover {
         cursor: default;
